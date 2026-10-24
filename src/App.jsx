@@ -2,6 +2,7 @@ import {useEffect, useRef} from "react";
 import Map from "@arcgis/core/Map.js";
 import MapView from "@arcgis/core/views/MapView.js";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer.js";
+import Legend from "@arcgis/core/widgets/Legend.js";
 
 export default function App() {
   const mapDiv = useRef(null);
@@ -16,6 +17,9 @@ export default function App() {
       renderer: {
         type: "class-breaks",
         field: "Fare_0_100",
+        legendOptions: {
+          title: "Risikonivå",
+        },
         classBreakInfos: [
             {
               minValue: 0,
@@ -43,7 +47,7 @@ export default function App() {
               label: "Moderat risiko",
               symbol: {
                 type: "simple-fill",
-                color: [255, 255, 191, 0.50],
+                color: [255, 215, 10, 0.40],
                 outline: { color: "white", width: 0.5 },
               },
             },
@@ -79,6 +83,24 @@ export default function App() {
       center: [6.72, 61.90], // Plasserer kartet til Stryn-kommune
       zoom: 9,
       });
+    
+    riskLayer.when().then(() => {
+      const legend = new Legend({
+        view: view,
+        layerInfos: [
+          {
+            layer: riskLayer,
+            title: "Samlet risiko",
+          },
+        ],
+      });
+
+      view.ui.add(legend, "bottom-right");
+      }).catch((error) => {
+        console.error("Kunne ikke lage tegnforklaring:", error);
+      });
+
+
     
   return () => {
     view.destroy();
