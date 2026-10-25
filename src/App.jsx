@@ -1,11 +1,15 @@
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import Map from "@arcgis/core/Map.js";
 import MapView from "@arcgis/core/views/MapView.js";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer.js";
 import Legend from "@arcgis/core/widgets/Legend.js";
 
 export default function App() {
+  const [selectedField, setSelectedField] = useState("Fare_0_100");
+
+  const riskLayerRef = useRef(null);
   const mapDiv = useRef(null);
+
   useEffect(() => {
     const map = new Map({
       basemap: "topo-vector",
@@ -16,7 +20,7 @@ export default function App() {
       title: "Risikoanalyse Stryn",
       renderer: {
         type: "class-breaks",
-        field: "Fare_0_100",
+        field: selectedField,
         legendOptions: {
           title: "Risikonivå",
         },
@@ -75,6 +79,7 @@ export default function App() {
       },
     });
 
+    riskLayerRef.current = riskLayer;
     map.add(riskLayer);
     
     const view = new MapView({
@@ -100,16 +105,83 @@ export default function App() {
         console.error("Kunne ikke lage tegnforklaring:", error);
       });
 
-
-    
-  return () => {
-    view.destroy();
+  
+    return () => {
+      view.destroy();
     };
   }, []);
 
-  return <div ref={mapDiv} className="map-view"></div>;
+  useEffect(() => {
+    if (riskLayerRef.current && riskLayerRef.current.renderer) {
+      const updatedRenderer = riskLayerRef.current.renderer.clone();
+      updatedRenderer.field = selectedField;
+      riskLayerRef.current.renderer = updatedRenderer;
+    }
+  }, [selectedField]);
+
+  return (
+    <div style={{ position: "relative", width: "100%", height: "100vh" }}>
+      {/* Kontrollpanel lagt over kartet */}
+      <div
+        style={{
+          position: "absolute",
+          top: "15px",
+          left: "15px",
+          background: "white",
+          padding: "12px 16px",
+          borderRadius: "6px",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
+          zIndex: 10,
+          fontFamily: "sans-serif",
+        }}
+      >
+        <h4 style={{ margin: "0 0 10px 0" }}>Vis risikofaktor</h4>
+
+        <div>
+          <label style={{ display: "block", marginBottom: "6px", cursor: "pointer" }}>
+            <input
+              type="radio"
+              name="risk"
+              checked={selectedField === "Fare_0_100"}
+              onChange={() => setSelectedField("Fare_0_100")}
+            />{" "}
+            Samlet risiko
+          </label>
+
+          <label style={{ display: "block", marginBottom: "6px", cursor: "pointer" }}>
+            <input
+              type="radio"
+              name="risk"
+              checked={selectedField === "Wind_0_100"}
+              onChange={() => setSelectedField("Wind_0_100")}
+            />{" "}
+            Vind
+          </label>
+
+          <label style={{ display: "block", marginBottom: "6px", cursor: "pointer" }}>
+            <input
+              type="radio"
+              name="risk"
+              checked={selectedField === "Zero_0_100"}
+              onChange={() => setSelectedField("Zero_0_100")}
+            />{" "}
+            Nullpasseringer
+          </label>
+
+          <label style={{ display: "block", cursor: "pointer" }}>
+            <input
+              type="radio"
+              name="risk"
+              checked={selectedField === "Prec_0_100"}
+              onChange={() => setSelectedField("Prec_0_100")}
+            />{" "}
+            Nedbør
+          </label>
+        </div>
+      </div>
+
+      {/* Selve kartvisningen */}
+      <div ref={mapDiv} style={{ width: "100%", height: "100%" }} />
+    </div>
+  );
 }
-
-
-
-
