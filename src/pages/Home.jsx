@@ -17,7 +17,7 @@ export default function Home() {
 
       <div style={{ marginTop: "10px" }}>
         <Link to="/trafikksaarbarhet">
-          <button>Trafikksårbarhet</button>
+          <button>Trafikkmengde</button>
         </Link>
       </div>
     </div>
