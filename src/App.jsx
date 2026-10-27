@@ -5,6 +5,8 @@ import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer.js";
 import Legend from "@arcgis/core/widgets/Legend.js";
 
 export default function App() {
+  const [theme, setTheme] = useState("climate");
+
   const [selectedField, setSelectedField] = useState("Fare_0_100");
 
   const riskLayerRef = useRef(null);
@@ -135,6 +137,26 @@ export default function App() {
           fontFamily: "sans-serif",
         }}
       >
+        <h4 style={{ margin: "0 0 10px 0" }}>Tema</h4>
+          <label style={{ display: "block", marginBottom: "6px" }}>
+            <input
+              type="radio"
+              name="theme"
+              checked={theme === "climate"}
+              onChange={() => setTheme("climate")}
+            />{" "}
+            Klimarisiko
+          </label>
+          <label style={{ display: "block", marginBottom: "12px" }}>
+            <input
+              type="radio"
+              name="theme"
+              checked={theme === "traffic"}
+              onChange={() => setTheme("traffic")}
+            />{" "}
+            Trafikksårbarhet (ÅDT)
+          </label>
+
         <h4 style={{ margin: "0 0 10px 0" }}>Vis risikofaktor</h4>
 
         <div>
