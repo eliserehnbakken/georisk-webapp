@@ -4,6 +4,7 @@ import MapView from "@arcgis/core/views/MapView.js";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer.js";
 import Legend from "@arcgis/core/widgets/Legend.js";
 import { Link } from "react-router-dom";
+import "./TrafficMap.css"
 
 export default function TrafficApp() {
   const mapDiv = useRef(null);
@@ -33,7 +34,7 @@ export default function TrafficApp() {
             {
               minValue: 0,
               maxValue: 20,
-              label: "Svært lav risiko",
+              label: "Svært lite trafikk",
               symbol: {
                 type: "simple-fill",
                 color: [26, 152, 80, 0.65],
@@ -43,7 +44,7 @@ export default function TrafficApp() {
             {
               minValue: 20,
               maxValue: 40,
-              label: "Lav risiko",
+              label: "Lite trafikk",
               symbol: {
                 type: "simple-fill",
                 color: [145, 207, 96, 0.50],
@@ -53,7 +54,7 @@ export default function TrafficApp() {
             {
               minValue: 40,
               maxValue: 60,
-              label: "Moderat risiko",
+              label: "Moderat trafikk",
               symbol: {
                 type: "simple-fill",
                 color: [255, 215, 10, 0.40],
@@ -63,7 +64,7 @@ export default function TrafficApp() {
           {
             minValue: 60,
             maxValue: 80,
-            label: "Høy risiko",
+            label: "Mye trafikk",
             symbol: {
               type: "simple-fill",
               color: [253, 174, 97, 0.65],
@@ -73,7 +74,7 @@ export default function TrafficApp() {
           {
             minValue: 80,
             maxValue: 100,
-            label: "Svært høy risiko",
+            label: "Svært mye trafikk",
             symbol: {
               type: "simple-fill",
               color: [215, 25, 28, 0.65],
@@ -132,16 +133,23 @@ export default function TrafficApp() {
   return (
     <div style={{ position: "relative", width: "100%", height: "100vh" }}>
       <Link to="/">
-        <button
-          style={{
-            position: "absolute",
-            top: "15px",
-            right: "15px",
-            zIndex: 20,
-          }}
-        >← Hovedmeny
-        </button>
+        <button className="menu-button">← Hovedmeny</button>
       </Link>
+      <div className="info-panel">
+        <h3>Trafikkmengde</h3>
+        <p>
+          Kartet viser relativ trafikkmengde basert på ÅDT.
+        </p>
+        <h4>Datagrunnlag</h4>
+        <ul>
+          <li>ÅDT (Årsdøgntrafikk)</li>
+          <li>VKM (kjøretøykilometer)</li>
+          <li>Veinett Stryn</li>
+        </ul>
+        <p>
+          Høy trafikkmengde kan indikere større konsekvenser ved stengte eller påvirkede veier.
+        </p>
+      </div>
       {/* Kontrollpanel lagt over kartet */}
 
 

@@ -1,23 +1,24 @@
 import { Link } from "react-router-dom";
+import "./Home.css";
 
 export default function Home() {
   return (
-    <div style={{ padding: "40px", fontFamily: "sans-serif" }}>
-      <h1>Georisk Stryn</h1>
-
-      <p>
-        Visualisering av geografisk klimarisiko og trafikksårbarhet.
+    <div className="home-container">
+      <h1 classname="home-title">
+        GeoRisk webapp - Stryn kommune
+      </h1>
+      <p classname = "home-description">
+        Visualisering av geografisk klimarisiko og trafikkmengde.
       </p>
 
       <div style={{ marginTop: "30px" }}>
         <Link to="/klimarisiko">
-          <button>Klimarisiko</button>
+          <button className="home-button">Klimarisiko</button>
         </Link>
       </div>
-
       <div style={{ marginTop: "10px" }}>
         <Link to="/trafikksaarbarhet">
-          <button>Trafikkmengde</button>
+          <button className="home-button">Trafikkmengde</button>
         </Link>
       </div>
     </div>

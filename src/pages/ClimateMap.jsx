@@ -4,6 +4,7 @@ import MapView from "@arcgis/core/views/MapView.js";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer.js";
 import Legend from "@arcgis/core/widgets/Legend.js";
 import { Link } from "react-router-dom";
+import "./ClimateMap.css"
 
 export default function ClimateApp() {
 
@@ -124,32 +125,13 @@ export default function ClimateApp() {
   return (
     <div style={{ position: "relative", width: "100%", height: "100vh" }}>
       <Link to="/">
-        <button
-          style={{
-            position: "absolute",
-            top: "15px",
-            right: "15px",
-            zIndex: 20,
-          }}
-        >← Hovedmeny
+        <button className="menu-button">← Hovedmeny
         </button>
       </Link>
       {/* Kontrollpanel lagt over kartet */}
-      <div
-        style={{
-          position: "absolute",
-          top: "15px",
-          left: "15px",
-          background: "white",
-          padding: "12px 16px",
-          borderRadius: "6px",
-          boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
-          zIndex: 10,
-          fontFamily: "sans-serif",
-        }}
-      >
-        <h4 style={{ margin: "0 0 10px 0" }}>Vis risikofaktor</h4>
-
+      <div className="control-panel">
+        <h3 className="panel-title">Klimarisiko</h3>
+        <p className="panel-description">Velg hvilket datalag som skal vises.</p>
         <div>
           <label style={{ display: "block", marginBottom: "6px", cursor: "pointer" }}>
             <input
