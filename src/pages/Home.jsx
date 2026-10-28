@@ -21,6 +21,11 @@ export default function Home() {
           <button className="home-button">Trafikkmengde</button>
         </Link>
       </div>
+      <div style={{ marginTop: "30px" }}>
+        <Link to="/prioritering">
+          <button className="home-button">Prioriteringsnivå (klimarisiko og trafikkmengde samlet)</button>
+        </Link>
+      </div>
     </div>
   );
 }
